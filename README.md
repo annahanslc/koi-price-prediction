@@ -2,11 +2,9 @@
 
 To-do's
 
+[] Multi-label, multi-class with Tancho and Gin Rin traits
+
 [] Apply image augmentation
-
-[] Add more classes
-
-[] Add multilabel, multiclass
 
 [] Upload to streamlit
 
