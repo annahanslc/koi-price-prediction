@@ -6,6 +6,6 @@ To-do's
 
 [] Apply image augmentation
 
-[] Upload to streamlit
+[] Upload to gradio
 
 [] Compare with chatgpt
