@@ -31,7 +31,7 @@ def load_json_to_df(filepath: str) -> pd.DataFrame:
 
 ######################### MULTI HOT ENCODE LABELS #########################
 
-def mhot_encoder(row: list) -> list:
+def mhot_encoder(row: list, labels: list) -> list:
   """Multi-hot encode labels into a binary array.
 
   Loops over a list of labels to check if it is in the given row.
@@ -41,12 +41,12 @@ def mhot_encoder(row: list) -> list:
 
   Args:
     row(list): A row of a DataFrame.
+    labels(list): A list of the labels.
 
   Returns:
     list: A list of binary encoded labels.
   """
 
-  labels = ['kohaku', 'sanke', 'showa', 'tancho', 'gin']
   mhot_encoded = []
 
   for label in labels:
@@ -57,7 +57,7 @@ def mhot_encoder(row: list) -> list:
 
 ######################### MULTI HOT ENCODE A ROW #########################
 
-def multi_hot_encode_row(df:pd.DataFrame):
+def multi_hot_encode_row(df:pd.DataFrame, labels):
   """Create a new column in a DataFrame with multi-hot encoded labels
 
   Applies the mhot_encoder to the given DataFrame to create a new column
@@ -65,11 +65,12 @@ def multi_hot_encode_row(df:pd.DataFrame):
 
   Args:
     df(pd.DataFrame): A DataFrame with a 'multi_label' column.
+    labels(list): A list of labels
 
   Returns:
     pd.DataFrame: A DataFrame that now contains the new column 'mhe'.
   """
-  df['mhe'] = df.apply(mhot_encoder, axis=1)
+  df['mhe'] = df.apply(lambda row: mhot_encoder(row, labels), axis=1)
   return df
 
 

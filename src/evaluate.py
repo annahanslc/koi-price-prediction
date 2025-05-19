@@ -1,7 +1,9 @@
 import torch
-from sklearn.metrics import f1_score, precision_score, recall_score
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import f1_score, precision_score, recall_score, classification_report, multilabel_confusion_matrix
 
-def evaluate_model(model, val_loader, device):
+def evaluate_model_flare(model, val_loader, device, class_labels):
   # calculate the validation metrics
 
   model.eval()
@@ -36,6 +38,37 @@ def evaluate_model(model, val_loader, device):
   recall = recall_score(all_labels, all_preds, average='macro')
 
   print(f"Validation Accuracy: {accuracy:.4f}, F1 Score: {f1:.4f}, Precision: {precision:.4f}, Recall: {recall:.4f}")
+
+  # check the classification report
+
+  print(classification_report(all_labels, all_preds, target_names=class_labels))
+
+  # create the confusion matrix
+
+  conf_matrices = multilabel_confusion_matrix(all_labels, all_preds)
+
+  # display the confusion matrix for each label
+
+  num_rows = len(class_labels)//2 + 1
+
+  fig, ax = plt.subplots(num_rows, 2, figsize=(10, num_rows*4))
+  ax = ax.flatten()
+
+  for i, cm in enumerate(conf_matrices):
+      sns.heatmap(cm, annot=True, fmt='d', cmap='flare', cbar=False,
+                  xticklabels=['Pred 0', 'Pred 1'],
+                  yticklabels=['True 0', 'True 1'],
+                  ax=ax[i])
+      ax[i].set_title(f'Confusion Matrix for {class_labels[i]}')
+      ax[i].set_ylabel('True Label')
+      ax[i].set_xlabel('Predicted Label')
+
+  # hide unused subplot
+  for j in range(i+1, len(ax)):
+      fig.delaxes(ax[j])
+
+  plt.tight_layout()
+  plt.show()
 
   return all_preds, all_labels, {'scores': {"accuracy": accuracy,
                                             "f1": f1,
