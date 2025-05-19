@@ -4,7 +4,7 @@ To-do's
 
 [o] Multi-label, multi-class with Tancho and Gin Rin traits
 
-[] Apply image augmentation
+[o] Apply image augmentation
 
 [] Upload to gradio
 
