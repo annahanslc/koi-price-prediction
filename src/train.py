@@ -21,7 +21,7 @@ def get_class_weights(train_df, device):
 
 ######################### TRAIN MODEL #########################
 
-def train_model(model, train_loader, val_loader, criterion, optimizer, device, num_epochs: int=20) -> tuple[list, list, list, list]:
+def train_model(model, train_loader, val_loader, criterion, optimizer, device, num_epochs: int=20, name_best_model: str='best_model.pth') -> tuple[list, list, list, list]:
 
   # create the training loop
 
@@ -29,6 +29,7 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, device, n
   train_accuracies = []
   val_losses = []
   val_accuracies = []
+  best_val_loss = float('inf')
 
   for epoch in range(num_epochs):
     # set the model to training mode
@@ -100,6 +101,10 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, device, n
     val_losses.append(avg_val_loss)
     val_accuracies.append(val_acc)
 
+    if avg_val_loss < best_val_loss:
+      best_val_loss = avg_val_loss
+      torch.save(model.state_dict(), name_best_model)
+
     # print loss for this epochs
     print(f"Epoch {epoch+1}/{num_epochs} | "
           f"Train Loss: {avg_train_loss:.4f}, Train Acc: {train_acc:.2%} | "
@@ -118,7 +123,8 @@ def train_model_earlystop_reducelronplateau(model,
                                             device,
                                             scheduler,
                                             num_epochs: int=20,
-                                            patience=5) -> tuple[list, list, list, list]:
+                                            patience=5,
+                                            best_model_name: str='best_model.pth') -> tuple[list, list, list, list]:
 
   # define early stopping
   best_val_loss = float('inf')
@@ -216,11 +222,14 @@ def train_model_earlystop_reducelronplateau(model,
     # check for early stopping
     if avg_val_loss < best_val_loss:
       best_val_loss = avg_val_loss
+      torch.save(model.state_dict(), best_model_name)
       counter = 0
+
     else:
       counter += 1
       if counter >= patience:
         print("Early stopping")
         break
+
 
   return train_losses, train_accuracies, val_losses, val_accuracies
