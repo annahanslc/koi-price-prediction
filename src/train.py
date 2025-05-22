@@ -123,12 +123,11 @@ def train_model_earlystop_reducelronplateau(model,
                                             device,
                                             scheduler,
                                             num_epochs: int=20,
-                                            patience=5,
+                                            patience_early_stop=5,
                                             best_model_name: str='best_model.pth') -> tuple[list, list, list, list]:
 
   # define early stopping
   best_val_loss = float('inf')
-  patience = patience
   counter = 0
 
   # create the training loop
@@ -227,7 +226,7 @@ def train_model_earlystop_reducelronplateau(model,
 
     else:
       counter += 1
-      if counter >= patience:
+      if counter >= patience_early_stop:
         print("Early stopping")
         break
 
