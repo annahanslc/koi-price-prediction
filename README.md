@@ -15,7 +15,7 @@ The goal of this project is to train an Image Classification Model to assist koi
 
 # Table of Contents
 
-1. About the Data
+1. [About the Data](#About-the-Data)
 2. Data Insights
 3. Modeling
 4. Results
@@ -59,7 +59,8 @@ My model will focus on distinguishing between 3 varieties and the presence of 2 
 
 The selected dataset has 5 labels (3 varities and 2 traits). Most fish have only 1 label, some have 2 and very few have 3 labels, as shown in the plot below.
 
-![num_labels_per_sample_hist](https://github.com/user-attachments/assets/21aa1007-3351-4944-b6b4-27c0254f7446)
+![num_labels_per_sample_hist](https://github.com/user-attachments/assets/da56c122-2f7f-43a7-b24e-438a2353a6b0)
+
 
 
 
