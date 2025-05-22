@@ -140,4 +140,26 @@ On the test dataset, the model only made 4 incorrect predictions:
 
 ![mistakes](https://github.com/user-attachments/assets/96079acb-2be3-4d91-a16a-d16f429e974c)
 
+Far Left: The model correctly identified the Tancho trait but failed to detect Sanke. Sanke koi are typically recognized by their distinctive black markings, which are visible in the image. The model’s omission of the Sanke label represents a missed classification despite clear visual cues.
 
+Second from the Left: The model accurately predicted the Kohaku variety but missed the Ginrin (sparkly scales) trait. Even to the human eye, the sparkle effect is subtle and difficult to discern in this image. This highlights a key source of irreducible error, as the visibility of the Ginrin trait is highly dependent on image quality and lighting angle.
+
+Second from the Right: The model correctly detected Ginrin but falsely labeled the fish as Tancho. A manual review clearly shows that the fish lacks the characteristic red cap associated with the Tancho trait. This is a definitive model error.
+
+Far Right: The model predicted Kohaku and Ginrin, while the actual fish is Ginrin only. However, this fish is an Aigoromo, a variety that features indigo netting over the red markings of a Kohaku pattern. Since the model was not trained to distinguish Aigoromo specifically, and the underlying pattern resembles Kohaku, the prediction is reasonable and justifiable given the training constraints.
+   
+# Next Steps
+
+As a next step, I plan to extend this project by incorporating a price regression model. The goal is to predict the estimated market price of a koi fish based on a combination of:
+
+The labels predicted by the current multi-label classification model (e.g., variety, traits like Ginrin or Tancho),
+
+And additional structured information about the fish, such as:
+1. Size (length in inches),
+2. Age (juvenile vs. adult),
+3. Sex (if known),
+4. And potentially breeder or origin (e.g., Japanese vs. domestic).
+
+This regression model would allow hobbyists and sellers to obtain a data-driven price estimate, which could serve as a baseline reference for buying, selling, or evaluating koi fish. Similar to how Zillow provides estimated home values with its "Zestimate," this model aims to bring transparency and consistency to the often subjective and opaque world of koi pricing.
+
+Ultimately, combining image-based classification with feature-driven price estimation will create a more complete tool for both newcomers and seasoned collectors in the koi community.
