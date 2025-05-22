@@ -57,9 +57,34 @@ My model will focus on distinguishing between 3 varieties and the presence of 2 
 
 ![Screenshot 2025-05-22 at 12 39 55 PM](https://github.com/user-attachments/assets/808d97fc-9d8f-421b-8a95-1e145b31c830)
 
-The selected dataset has 5 labels (3 varities and 2 traits). Most fish have only 1 label, some have 2 and very few have 3 labels, as shown in the plot below.
+The selected dataset has 5 labels (3 varities and 2 traits). Since the varieties are mutually-exclusive, a fish should not have more than 1 variety, but can have multiple traits, so the number of labels per fish should be between 1 and 3. Most fish have only 1 label, some have 2 and very few have 3 labels, as shown in the plot below. 
 
 ![num_labels_per_sample_hist](https://github.com/user-attachments/assets/da56c122-2f7f-43a7-b24e-438a2353a6b0)
+
+Random sample of each label. The below show a random selection of 20 samples from each label.
+
+### Kohaku
+![random20_kohaku](https://github.com/user-attachments/assets/e2004c8d-acd0-471a-a71b-96f7349ab6b7)
+
+### Sanke
+![random20_sanke](https://github.com/user-attachments/assets/869d16e0-26fc-4520-97a2-2bff107e117a)
+
+### Showa
+![random20_showa](https://github.com/user-attachments/assets/2d68d20a-5dcf-4298-9171-0e58d425a41a)
+
+### Tancho
+![random20_tancho](https://github.com/user-attachments/assets/bb72ef3a-985f-42f1-a2a5-4ec0902d5681)
+
+### GinRin
+![random20_ginrin](https://github.com/user-attachments/assets/7c339a6c-4a9e-43c5-819e-88ea26590656)
+
+### Class Balance
+
+![class_balance_5classes](https://github.com/user-attachments/assets/0ab0f502-4968-452c-9602-ee1d246af4d3)
+
+The number of samples per label is unbalanced, with Tancho being the most affected, haivng only 20-25% of the number of observations as the other labels. This is addressed during modeling by 1) using stratefied split and 2) using positive weights.
+
+
 
 
 
