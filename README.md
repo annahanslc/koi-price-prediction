@@ -21,9 +21,9 @@ The goal of this project is to train an Image Classification Model to assist koi
 
 1. [About the Data](#About-the-Data)
 2. [Modeling](#Modeling)
-3. Results
-4. Next Steps
-5. References
+3. [Results](#Results)
+4. [Next Steps](#Next-Steps)
+5. [References](#References)
 
 # About the Data
 
@@ -163,3 +163,15 @@ And additional structured information about the fish, such as:
 This regression model would allow hobbyists and sellers to obtain a data-driven price estimate, which could serve as a baseline reference for buying, selling, or evaluating koi fish. Similar to how Zillow provides estimated home values with its "Zestimate," this model aims to bring transparency and consistency to the often subjective and opaque world of koi pricing.
 
 Ultimately, combining image-based classification with feature-driven price estimation will create a more complete tool for both newcomers and seasoned collectors in the koi community.
+
+# References
+
+1. **Kodama Koi Farm.** _How Much Do Koi Fish Cost?_  https://www.kodamakoifarm.com/how-much-do-koi-fish-cost/
+2. **Business Insider.** _This Japanese Koi Fish Sold for $1.8 Million — Here's Why It's So Expensive._ https://www.businessinsider.com/koi-fish-worth-millions-expensive-japan-2018-12 
+3. **Grand Koi.** _Shiro Utsuri and Other Koi Varieties for Sale._  https://www.grandkoi.com/product-category/other-koi-varieties-for-sale/shiro-utsuri/
+4. **Sacramento Koi.** _Koi Fish for Sale._  https://sacramentokoi.com/koi/?orderby=popularity&hide_sold_products=true
+5. **Kloubec Koi Farm.** _Koi Fish for Sale._  https://www.kloubeckoi.com/koi-fish-for-sale/
+6. **Next Day Koi.** _Shop All Koi Fish._  https://nextdaykoi.com/shop/
+7. **GC Koi Farm.** _Koi Collection._  https://gckoi.com/collections/koi
+8. **Champ Koi.** _All Koi for Sale._  https://www.champkoi.com/collections/all-koi
+
