@@ -1,10 +1,11 @@
+![Screenshot 2025-05-22 at 4 51 22 PM](https://github.com/user-attachments/assets/cbd8faa3-d694-4504-b0cb-a04453f12f0f)
+
 # 🎏 Koi Fish Classification
 
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.5.1-EE4C2C?logo=pytorch&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)
 ![Jupyter](https://img.shields.io/badge/Made%20with-Jupyter-orange?logo=Jupyter)
 ![Accuracy](https://img.shields.io/badge/Test%20Accuracy-96%25-green)
-
 
 Raising koi fish is a growing hobby in the United States, driven by increasing demand for ornamental pets and the rising popularity of backyard ponds and garden landscaping. The aesthetic appeal and calming presence of koi ponds are drawing more homeowners to purchase their first koi.
 
@@ -16,6 +17,7 @@ The most expensive koi fish ever sold was a Kohaku named "S Legend", which fetch
 # Project Goal
 
 The goal of this project is to train an Image Classification Model to assist koi hobbyists in identifying koi fish varieties, sub-varieties, and traits. Since these visual and genetic distinctions significantly influence a koi’s market value, the tool aims to empower buyers and sellers to better understand what a fish is worth. May they be making their first purchase or selling a fish that they had raised.
+
 
 # Table of Contents
 
@@ -38,9 +40,6 @@ Data was gathered from six different online koi retailers, and obtained a total 
 6. [Champkoi](https://www.champkoi.com/collections/all-koi) -> 185 Observations
 
 ### Data Quality
-
-Each online retailer provided different levels of detail for each fish listing.
-![Screenshot 2025-05-22 at 12 00 33 PM](https://github.com/user-attachments/assets/e0e39595-d131-4b82-ab78-578e81728379)
 
 For classification purposes, the most important elements are the image of the fish and the tags that indicate its variety and any applicable traits.
 
