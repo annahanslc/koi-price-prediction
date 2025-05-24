@@ -31,7 +31,7 @@ The goal of this project is to train an Image Classification Model to assist koi
 
 ### Data Source 
 
-Images of koi fish were web-scraped from six different online koi retailers, resulting in a dataset of 3,844 images. Each image was accompanied by metadata related to the fish, including price, size (in inches), gender, and breeder.
+Images of koi fish were web-scraped from six different online koi retailers, resulting in a dataset of 3,844 images. Each image was accompanied by metadata related to the fish, including price, size (in inches), gender, and breeder. The metadata varied by website, with each retailer providing a slightly different set of information about the fish.
 
 1. [Grand Koi](https://www.grandkoi.com/product-category/other-koi-varieties-for-sale/shiro-utsuri/) -> 367 Observations
 2. [Sacramento Koi](https://sacramentokoi.com/koi/?orderby=popularity&hide_sold_products=true) -> 423 Observations
