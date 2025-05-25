@@ -42,7 +42,7 @@ Images of koi fish were web-scraped from six different online koi retailers, res
 
 ### Data Quality
 
-For classification purposes, the most important elements are the image of the fish and the tags that indicate its variety and any applicable traits.
+For classification purposes, the most important elements are 1) the image of the fish and 2) the tags that indicate its variety and any applicable traits.
 
 To ensure clean and relevant input for modeling, the images were carefully filtered. Listings with multiple fish in one image were excluded to avoid confusion during training. Since the model focuses on distinguishing between koi fish varieties, images containing non-koi fish (e.g., goldfish) or non-fish content were also removed.
 
