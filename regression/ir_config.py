@@ -1,22 +1,24 @@
 import pandas as pd
 import json
+import torch
 
-class IRConfig():
-  def __init__(self):
-    self
 
-  def load_json_to_df(self, filepath) -> pd.DataFrame:
-    """Loads data from json file into a DataFrame.
+class IRConfig:
+    def __init__(self):
+        self
 
-    Accepts a filepath of a json file to load the data, then returns a DataFrame with the data.
+    def load_json_to_df(self, filepath) -> pd.DataFrame:
+        """Loads data from json file into a DataFrame.
 
-    Args:
-      filepath(str): Path of json file to load.
+        Accepts a filepath of a json file to load the data, then returns a DataFrame with the data.
 
-    Returns:
-      pd.DataFrame: DataFrame of data from the json file.
-    """
-    with open(filepath, 'r') as f:
-      data = json.load(f)
+        Args:
+          filepath(str): Path of json file to load.
 
-    return pd.DataFrame(data)
+        Returns:
+          pd.DataFrame: DataFrame of data from the json file.
+        """
+        with open(filepath, "r") as f:
+            data = json.load(f)
+
+        return pd.DataFrame(data)
