@@ -1,8 +1,9 @@
 import torch
 import torchvision
-import numpy as np
+import matplotlib.pyplot as plt
+from datetime import datetime
+from tqdm import tqdm
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import r2_score
 from torchvision.transforms import v2
 from torch.utils.data import Dataset, DataLoader
 from PIL import Image
@@ -20,10 +21,10 @@ class ImageRegressionTorch:
         testval_size,
         val_size,
         model=torchvision.models.resnet18(
-            weights=torchvision.models.resnet18_weights.default
+            weights=torchvision.models.ResNet18_Weights.DEFAULT
         ),
         num_epochs=100,
-        learning_rate=0.001,
+        learning_rate=0.01,
         weight_decay=0.0001,
         scheduler_patience=5,
         scheduler_factor=0.1,
@@ -68,24 +69,28 @@ class ImageRegressionTorch:
         self.train_ds, self.val_ds, self.test_ds = self.get_split_datasets()
         self.train_loader, self.test_loader, self.val_loader = self.get_dataloaders()
 
+        # Freeze layers
+        for param in model.parameters():
+            param.requires_grad = False
         # Replace the last layer
         self.model.fc = torch.nn.Linear(model.fc.in_features, 1)
         # Define the loss funtion
-        self.criterion = torch.nn.MSEloss()
+        self.criterion = torch.nn.MSELoss()
         # Define the optimizer
         self.optimizer = torch.optim.AdamW(
             model.parameters(),
-            learning_rate=self.learning_rate,
+            lr=self.learning_rate,
             weight_decay=self.weight_decay,
         )
         # Move the model to device
         model.to(self.device)
         # Define the scheduler
-        self.scheduler = torch.optim.lr_scheduler(
+        self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
             self.optimizer,
             mode="min",
             patience=self.scheduler_patience,
             factor=self.scheduler_factor,
+            verbose=True,
         )
 
     def get_split_datasets(self):
@@ -161,22 +166,23 @@ class ImageRegressionTorch:
             train_mse_list,
             train_rmse_list,
             train_mae_list,
-            train_mape_list,
-            train_median_ae_list,
-        ) = (
-            [],
-            [],
-            [],
-            [],
-            [],
-        )
+            val_mse_list,
+            val_rmse_list,
+            val_mae_list,
+        ) = ([], [], [], [], [], [])
+
+        start_time = datetime.now()
 
         for epoch in range(num_epochs):
             # Set the model to training model
             model.train()
             total_train_loss = 0
+            total_train_mae = 0
 
-            for images, targets in self.train_loader:
+            for images, targets in tqdm(self.train_loader):
+                # Move to tensor
+                images = images.to(self.device)
+                targets = targets.to(self.device).unsqueeze(1).float()
                 # Reset the gradients
                 optimizer.zero_grad()
                 # Forward pass
@@ -189,11 +195,80 @@ class ImageRegressionTorch:
                 optimizer.step()
                 # Add batch loss to total loss
                 total_train_loss += loss.item()
+                # Add batch mae to total mae, first turn tensor to scalar
+                mae = torch.nn.L1Loss(reduction="mean")(outputs, targets).item()
+                total_train_mae += mae
 
             avg_train_loss = total_train_loss / len(self.train_loader)
-            avg_train_rmse = np.sqrt(avg_train_loss)
+            avg_train_rmse = (avg_train_loss) ** 0.5
+            avg_train_mae = total_train_mae / len(self.train_loader)
+
             train_mse_list.append(avg_train_loss)
             train_rmse_list.append(avg_train_rmse)
+            train_mae_list.append(avg_train_mae)
+
+            model.eval()
+            with torch.inference_mode():
+                total_val_loss = 0
+                total_val_mae = 0
+
+                for images, targets in self.val_loader:
+                    images = images.to(self.device)
+                    targets = targets.to(self.device).unsqueeze(1).float()
+
+                    outputs = model(images)
+                    loss = criterion(outputs, targets)
+                    total_val_loss += loss.item()
+                    mae = torch.nn.L1Loss(reduction="mean")(outputs, targets).item()
+                    total_val_mae += mae
+
+                avg_val_loss = total_val_loss / len(self.val_loader)
+                avg_val_rmse = (avg_val_loss) ** 0.5
+                avg_val_mae = total_val_mae / len(self.val_loader)
+
+                val_mse_list.append(avg_val_loss)
+                val_rmse_list.append(avg_val_rmse)
+                val_mae_list.append(avg_val_mae)
+
+            current_lr = optimizer.param_groups[0]["lr"]
+
+            # Print loss for this epoch
+            print(
+                f"Epoch {epoch + 1}/{num_epochs} | "
+                f"Train Loss(MSE): {avg_train_loss:.4f}, Train RMSE: {avg_train_rmse:.4f}, Train MAE: {avg_train_mae:.4f} | "
+                f"Val Loss(MSE): {avg_val_loss:.4f}, Val RMSE: {avg_val_rmse:.4f}, Val MAE: {avg_val_mae:.4f} | "
+                f"LR: {current_lr:.6f}"
+            )
+
+        end_time = datetime.now()
+        print(
+            f"Start Training Time: {start_time}, End Training Time: {end_time}, Total Time: {end_time - start_time}"
+        )
+
+        # plot the loss and accuracy over epochs
+        epochs = range(1, num_epochs + 1)
+        plt.figure(figsize=(12, 6))
+
+        # plot the loss
+        plt.subplot(1, 2, 1)
+        plt.plot(epochs, train_rmse_list, label="Train RMSE", marker="o")
+        plt.plot(epochs, val_rmse_list, label="Val RMSE", marker="o")
+        plt.title("RMSE Over Epochs")
+        plt.xlabel("Epoch")
+        plt.ylabel("RMSE")
+        plt.legend()
+
+        # plot the rmse
+        plt.subplot(1, 2, 2)
+        plt.plot(epochs, train_mae_list, label="Train MAE", marker="o")
+        plt.plot(epochs, val_mae_list, label="Val MAE", marker="o")
+        plt.title("MAE Over Epochs")
+        plt.xlabel("Epoch")
+        plt.ylabel("MAE")
+        plt.legend()
+
+        plt.tight_layout()
+        plt.show()
 
     class CustomDataset(Dataset):
         def __init__(
