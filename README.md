@@ -50,6 +50,12 @@ To ensure clean and relevant input for modeling, the images were carefully filte
 
 After cleaning, the dataset was reduced from 3,844 to **3,134 observations**. The remaining entries yielded the following tag frequency distribution.
 
+To confirm that the logo wasn’t influencing the model’s predictions, I applied Grad-CAM to visualize which pixels were activated during inference.
+
+![Gradcam](https://github.com/user-attachments/assets/41d0161a-967f-4853-9c25-9c3b59be1616)
+
+The model mainly focuses on the fish's head and body. The logo does is not being considered. 
+
 Note that a single fish can have multiple tags, and some tags represent broader classification categories. For example, the tag "Gosanke" encompasses three specific varieties: Kohaku, Sanke, and Showa.
 
 <img src='https://github.com/user-attachments/assets/8f196ea6-8137-425b-8321-79c935affe94' width=800 />
